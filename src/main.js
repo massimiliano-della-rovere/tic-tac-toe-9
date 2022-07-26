@@ -1,4 +1,14 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from "vue"
+import { createPinia } from "pinia"
+import App from "./App.vue"
+import { useGameStore } from "@/stores/game"
 
-createApp(App).mount('#app')
+const pinia = createPinia()
+
+const app = createApp(App)
+
+app.use(pinia)
+
+useGameStore()
+
+app.mount("#app")
