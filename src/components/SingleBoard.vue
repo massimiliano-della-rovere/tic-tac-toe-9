@@ -1,6 +1,6 @@
 <template>
   <table :id="boardID"
-         :class="[activeClass, wonClass]">
+         :class="['single-board', activeClass, wonClass]">
     <tr v-for="(rowPositions, rowIndex) in POSITIONS_BY_ROW"
         :key="`row-${rowIndex}`">
       <td v-for="(cellPosition, cellIndex) in rowPositions"
@@ -54,6 +54,10 @@ const wonClass = computed(() => {
 
 
 <style scoped>
+.single-board {
+  transition: border 1s linear, background-color 1s ease-in-out;
+}
+
 .active-board-circle {
   border: thick rgba(255, 0, 0, 100%) solid;
 }

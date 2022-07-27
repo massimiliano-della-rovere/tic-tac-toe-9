@@ -83,12 +83,11 @@ function markCellSymbol(event) {
   height: 1.5em;
   width: 1.5em;
 
-  /*display: table-cell;*/
-  /*vertical-align: middle;*/
-  /*text-align: center;*/
-  display: flex;
+  display: grid;
   justify-content: center;
   align-items: center;
+
+  transition: color 1s linear;
 }
 
 .circle {
