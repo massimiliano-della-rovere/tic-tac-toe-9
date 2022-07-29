@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import TT9Game from "@/components/TT9Game.vue";
+import TT9Game from "@/components/TT9Game.vue"
 </script>
 
 <style>
