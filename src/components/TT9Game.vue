@@ -1,5 +1,5 @@
 <template>
-  <TT9Board/>
+  <TT9Board @load="notifyNewGame"/>
 </template>
 
 

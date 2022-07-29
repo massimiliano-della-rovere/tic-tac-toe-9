@@ -2,9 +2,13 @@
   <TT9Game/>
 </template>
 
+
+
 <script setup>
 import TT9Game from "@/components/TT9Game.vue"
 </script>
+
+
 
 <style>
 #app {

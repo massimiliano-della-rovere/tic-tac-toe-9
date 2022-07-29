@@ -1,10 +1,12 @@
 import { defineStore } from "pinia"
+import { useToast } from "vue-toastification"
 import { CIRCLE, CROSS, EMPTY, POSITIONS } from "@/constants.js"
 import { InvalidUserError } from "@/errors/InvalidUserError.js"
 import { singleBoardWinner, tt9BoardsWinner } from "@/utilities.js"
 
 
 const symbols = [CIRCLE, CROSS]
+const toast = useToast()
 
 
 function swapActivePlayer() {
@@ -44,14 +46,14 @@ function calculateAndSetActiveBoards(gameStore, tt9BoardPosition, cellPosition) 
 }
 
 
-function updateBoardState(gameStore, boardPosition, cellPosition) {
+async function updateBoardState(gameStore, boardPosition, cellPosition) {
   const sbw = singleBoardWinner(gameStore, boardPosition, cellPosition)
   console.debug({sbw})
   if (sbw !== EMPTY) {
     gameStore.wonBoards[boardPosition] = sbw
     calculateAndSetActiveBoards(gameStore, boardPosition, cellPosition)
     gameStore.winner = tt9BoardsWinner(gameStore)
-    return detectWinner(gameStore)
+    return await detectWinner(gameStore)
   } else {
     calculateAndSetActiveBoards(gameStore, boardPosition, cellPosition)
   }
@@ -59,10 +61,14 @@ function updateBoardState(gameStore, boardPosition, cellPosition) {
 }
 
 
-function detectWinner(gameStore) {
+async function detectWinner(gameStore) {
   if (gameStore.winner !== EMPTY) {
     gameStore.recordEvent("Victory", gameStore.winner)
-    alert("We have a winner!")
+    await new Promise((resolve) => {
+      toast.success(
+        `We have a winner: ${gameStore.winner}!`,
+        {onClose: () => { resolve() }})
+    })
     gameStore.initGame()
     return true
   }
@@ -80,7 +86,9 @@ export const useGameStore = defineStore(
       turn: 0,
       winner: EMPTY,
       cells: generateMatrix(),
-      wonBoards: Object.fromEntries(Object.keys(POSITIONS).map(position => [position, EMPTY]))
+      wonBoards: Object.fromEntries(
+          Object.keys(POSITIONS)
+                .map(position => [position, EMPTY]))
     }),
     getters: {},
     actions: {
@@ -94,14 +102,15 @@ export const useGameStore = defineStore(
           this.activePlayer = symbols[randomIndex]
         }
         this.recordEvent("initActivePlayer", this.activePlayer)
+        toast.info(`A new game is starting, first player is ${this.activePlayer}`)
 
         this.turn = 1
         this.recordEvent("gameStart")
       },
-      endTurn(boardPosition, cellPosition) {
+      async endTurn(boardPosition, cellPosition) {
         this.recordEvent("endTurn", this.turn)
 
-        const gameEnded = updateBoardState(this, boardPosition, cellPosition)
+        const gameEnded = await updateBoardState(this, boardPosition, cellPosition)
         if (gameEnded) {
           return
         }

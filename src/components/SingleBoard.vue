@@ -40,7 +40,6 @@ const activeClass = computed(() => {
       : "forbidden-board"
 })
 const wonClass = computed(() => {
-  console.debug({boardPosition: props.boardPosition, wonBoards: gameStore.wonBoards})
   const boardWinner = gameStore.wonBoards[props.boardPosition]
   console.debug(boardWinner)
   if (boardWinner === EMPTY) {

@@ -10,6 +10,7 @@
 
 <script setup>
 import { computed } from "vue"
+import { useToast } from "vue-toastification"
 import { EMPTY } from "@/constants.js"
 import { cellContentToClass } from "@/utilities.js"
 import { useGameStore } from "@/stores/game.js"
@@ -28,6 +29,7 @@ const props = defineProps({
 const cellID = computed(() => `cell-${props.boardPosition}-${props.cellPosition}`)
 console.debug(`init ${cellID.value}`)
 
+const toast = useToast()
 const gameStore = useGameStore()
 
 const cellContent = computed({
@@ -42,22 +44,22 @@ const cellContent = computed({
 const cellClass = computed(() => { return cellContentToClass(cellContent.value) });
 
 
-function markCellSymbol(event) {
+async function markCellSymbol(event) {
   const cellID = event.target.id
   console.debug(`clicked ${cellID}`)
 
   if (cellContent.value !== EMPTY) {
-    alert(`The clicked cell is already owned by ${cellContent.value}.`)
+    toast.error(`The clicked cell is already owned by ${cellContent.value}.`)
     return
   }
 
   if (gameStore.activeBoards.length && !gameStore.activeBoards.includes(props.boardPosition)) {
-    alert(`You can only select an empty cell in the ${gameStore.activeBoards} board.`)
+    toast.error(`You can only select an empty cell in the ${gameStore.activeBoards} board.`)
     return
   }
 
   if (gameStore.wonBoards[props.boardPosition] !== EMPTY) {
-    alert(`The board you clicked can't be used because was already won by ${gameStore.wonBoards[props.boardPosition]}.`)
+    toast.error(`The board you clicked can't be used because was already won by ${gameStore.wonBoards[props.boardPosition]}.`)
     return
   }
 
@@ -65,7 +67,7 @@ function markCellSymbol(event) {
   gameStore.recordEvent("markCell", {cellID, owner: gameStore.activePlayer})
   console.debug(`${cellID} is owned by ${gameStore.activePlayer}`)
   console.debug(`next board(s): ${gameStore.activeBoards.join(", ")}`)
-  gameStore.endTurn(props.boardPosition, props.cellPosition)
+  await gameStore.endTurn(props.boardPosition, props.cellPosition)
   console.info({cellContent, cells: gameStore.cells[props.boardPosition]})
 }
 </script>
