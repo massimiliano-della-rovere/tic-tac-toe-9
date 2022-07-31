@@ -60,10 +60,7 @@ export const useGameControlStore = defineStore(
     function initGame(startingPlayer = EMPTY) {
       gameStateStore.initGame()
 
-      console.log("PRE")
       activeBoards.value = Object.keys(POSITIONS)
-      console.log({POSITIONS, activeBoards: activeBoards.value})
-      console.log("POST")
       activePlayer.value = calculateStartingPlayer(startingPlayer)
       gameLogStore.recordEvent("initActivePlayer", activePlayer.value)
 

@@ -79,7 +79,6 @@ async function markCellSymbol(event) {
   console.debug(`${cellID} is owned by ${gameControlStore.activePlayer}`)
   console.debug(`next board(s): ${gameControlStore.activeBoards.join(", ")}`)
   await gameControlStore.endTurn(props.boardPosition, props.cellPosition)
-  console.info({cellContent, cells: gameStateStore.cells[props.boardPosition]})
 }
 </script>
 
