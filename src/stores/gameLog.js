@@ -16,7 +16,7 @@ export const useGameLogStore = defineStore(
       if (value !== null) {
         record.set("value", value)
       }
-      this.history.push(record)
+      history.value.push(record)
     }
 
     return {
