@@ -11,9 +11,14 @@
 <script setup>
 import { computed } from "vue"
 import { useToast } from "vue-toastification"
+
 import { EMPTY } from "@/constants.js"
 import { cellContentToClass } from "@/utilities.js"
-import { useGameStore } from "@/stores/game.js"
+
+import { useGameControlStore } from "@/stores/gameControl.js"
+import { useGameLogStore } from "@/stores/gameLog.js"
+import { useGameStateStore } from "@/stores/gameState.js"
+
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -26,18 +31,23 @@ const props = defineProps({
     required: true
   }})
 
+
 const cellID = computed(() => `cell-${props.boardPosition}-${props.cellPosition}`)
 console.debug(`init ${cellID.value}`)
 
+
 const toast = useToast()
-const gameStore = useGameStore()
+const gameControlStore = useGameControlStore()
+const gameLogStore = useGameLogStore()
+const gameStateStore = useGameStateStore()
+
 
 const cellContent = computed({
   get() {
-    return gameStore.cells[props.boardPosition][props.cellPosition]
+    return gameStateStore.cells[props.boardPosition][props.cellPosition]
   },
   set(newValue) {
-    gameStore.cells[props.boardPosition][props.cellPosition] = newValue
+    gameStateStore.cells[props.boardPosition][props.cellPosition] = newValue
   }
 })
 
@@ -53,22 +63,23 @@ async function markCellSymbol(event) {
     return
   }
 
-  if (gameStore.activeBoards.length && !gameStore.activeBoards.includes(props.boardPosition)) {
-    toast.error(`You can only select an empty cell in the ${gameStore.activeBoards} board.`)
+  // eslint-disable-next-line no-undef
+  if (gameControlStore.activeBoards.length && !gameControlStore.activeBoards.includes(props.boardPosition)) {
+    toast.error(`You can only select an empty cell in the ${gameControlStore.activeBoards} board.`)
     return
   }
 
-  if (gameStore.wonBoards[props.boardPosition] !== EMPTY) {
-    toast.error(`The board you clicked can't be used because was already won by ${gameStore.wonBoards[props.boardPosition]}.`)
+  if (gameStateStore.wonBoards[props.boardPosition] !== EMPTY) {
+    toast.error(`The board you clicked can't be used because was already won by ${gameStateStore.wonBoards[props.boardPosition]}.`)
     return
   }
 
-  cellContent.value = gameStore.activePlayer
-  gameStore.recordEvent("markCell", {cellID, owner: gameStore.activePlayer})
-  console.debug(`${cellID} is owned by ${gameStore.activePlayer}`)
-  console.debug(`next board(s): ${gameStore.activeBoards.join(", ")}`)
-  await gameStore.endTurn(props.boardPosition, props.cellPosition)
-  console.info({cellContent, cells: gameStore.cells[props.boardPosition]})
+  cellContent.value = gameControlStore.activePlayer
+  gameLogStore.recordEvent("markCell", {cellID, owner: gameControlStore.activePlayer})
+  console.debug(`${cellID} is owned by ${gameControlStore.activePlayer}`)
+  console.debug(`next board(s): ${gameControlStore.activeBoards.join(", ")}`)
+  await gameControlStore.endTurn(props.boardPosition, props.cellPosition)
+  console.info({cellContent, cells: gameStateStore.cells[props.boardPosition]})
 }
 </script>
 

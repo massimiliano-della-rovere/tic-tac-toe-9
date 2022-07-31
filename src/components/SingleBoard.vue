@@ -16,12 +16,17 @@
 
 <script setup>
 import { computed } from "vue"
+
 import { CIRCLE, EMPTY, POSITIONS_BY_ROW } from "@/constants.js"
-import { useGameStore } from "@/stores/game.js"
+
+import { useGameControlStore } from "@/stores/gameControl.js"
+import { useGameStateStore } from "@/stores/gameState.js"
+
 import BoardCell from "@/components/BoardCell.vue"
 
 
-const gameStore = useGameStore()
+const gameControlStore = useGameControlStore()
+const gameStateStore = useGameStateStore()
 
 
 // eslint-disable-next-line no-undef
@@ -34,13 +39,14 @@ const props = defineProps({
 const boardID = computed(() => `board-${props.boardPosition}`)
 console.debug(`init ${boardID.value}`)
 
+
 const activeClass = computed(() => {
-  return gameStore.activeBoards.includes(props.boardPosition)
-      ? `active-board-${gameStore.activePlayer === CIRCLE ? "circle" : "cross"}`
+  return gameControlStore.activeBoards.includes(props.boardPosition)
+      ? `active-board-${gameControlStore.activePlayer === CIRCLE ? "circle" : "cross"}`
       : "forbidden-board"
 })
 const wonClass = computed(() => {
-  const boardWinner = gameStore.wonBoards[props.boardPosition]
+  const boardWinner = gameStateStore.wonBoards[props.boardPosition]
   console.debug(boardWinner)
   if (boardWinner === EMPTY) {
     return ""

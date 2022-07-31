@@ -1,6 +1,10 @@
 const CIRCLE = "🞆" // https://www.compart.com/en/unicode/U+2B58
 const CROSS = "🗙" // https://en.wikipedia.org/wiki/X_mark
 const EMPTY = "·"
+const SYMBOLS = [CIRCLE, CROSS]
+
+const RESTART_GAME = Symbol("restartGame")
+const CONTINUE_GAME = Symbol("continueGame")
 
 const POSITIONS = {
   o:  [ 0,  0],
@@ -17,5 +21,7 @@ const POSITIONS_BY_COL = [["nw", "w", "sw"], ["n", "o", "s"], ["ne", "e", "se"]]
 const DIAGONALS = [["nw", "o", "se"], ["ne", "o", "sw"]]
 
 export {
-    CIRCLE, CROSS, EMPTY,
-    POSITIONS, POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS }
+  CIRCLE, CROSS, EMPTY, SYMBOLS,
+  POSITIONS, POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS,
+  CONTINUE_GAME, RESTART_GAME
+}

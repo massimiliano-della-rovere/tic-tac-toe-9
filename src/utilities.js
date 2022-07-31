@@ -6,6 +6,9 @@ import {
 } from "@/constants.js"
 
 
+const WINNER_DETECTION_PATHS = [POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS]
+
+
 function cellContentToClass(cellContent) {
   switch (cellContent) {
     case EMPTY:
@@ -15,13 +18,13 @@ function cellContentToClass(cellContent) {
     case CROSS:
       return "cross"
     default:
-      throw new ReferenceError(cellContent.value)
+      throw new ReferenceError(cellContent)
   }
 }
 
 
-function findWinner(matrix, position = null) {
-  for (let positions of [POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS]) {
+function findWinner(matrix, position = undefined) {
+  for (let positions of WINNER_DETECTION_PATHS) {
     for (let path of positions) {
       if (position && !path.includes(position)) {
         continue
@@ -38,16 +41,4 @@ function findWinner(matrix, position = null) {
 }
 
 
-function singleBoardWinner(gameStore, singleBoardPosition, cellPosition = null) {
-  console.debug(JSON.stringify({cellPosition, cells: gameStore.cells[singleBoardPosition]}))
-  return findWinner(gameStore.cells[singleBoardPosition], cellPosition)
-}
-
-
-function tt9BoardsWinner(gameStore, singleBoardPosition = null) {
-  console.debug(JSON.stringify({singleBoardPosition, boards: gameStore.wonBoards}))
-  return findWinner(gameStore.wonBoards, singleBoardPosition)
-}
-
-
-export { cellContentToClass, singleBoardWinner, tt9BoardsWinner, findWinner }
+export { cellContentToClass, findWinner }

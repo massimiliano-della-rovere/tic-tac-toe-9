@@ -5,12 +5,12 @@
 
 
 <script setup>
+import { useGameControlStore } from "@/stores/gameControl.js"
+
 import TT9Board from "@/components/TT9Board.vue"
-import { useGameStore } from "@/stores/game.js"
 
-const gameStore = useGameStore()
 
-gameStore.initGame()
+useGameControlStore().initGame()
 </script>
 
 
