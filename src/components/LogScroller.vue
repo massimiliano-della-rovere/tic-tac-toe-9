@@ -1,9 +1,11 @@
 <template>
-  <TransitionGroup name="events" tag="ul">
-    <li v-for="event in lastEvents" :key="event.split('.')[0]">
-      {{ event }}
-    </li>
-  </TransitionGroup>
+  <section id="log-scroller">
+    <TransitionGroup name="events" tag="ul">
+      <li v-for="event in lastEvents" :key="event.split('.')[0]">
+        {{ event }}
+      </li>
+    </TransitionGroup>
+  </section>
 </template>
 
 

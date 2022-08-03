@@ -1,0 +1,25 @@
+.dark {
+  border-color: lightblue;
+  color: lightblue;
+  background-color: #262626;
+}
+
+.light {
+  border-color: sienna;
+  color: sienna;
+  background-color: lightyellow;
+}
+
+a {
+  text-decoration: none;
+}
+
+.dark a {
+  color: lightblue;
+  background: radial-gradient(blue, #262626);
+}
+
+.light a {
+  color: sienna;
+  background: radial-gradient(yellow, lightyellow);
+}

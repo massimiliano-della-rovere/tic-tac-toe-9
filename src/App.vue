@@ -1,11 +1,19 @@
 <template>
-  <TT9Game/>
+  <NavigationBar></NavigationBar>
+  <hr/>
+  <router-view></router-view>
 </template>
 
 
 
 <script setup>
-import TT9Game from "@/components/TT9Game.vue"
+import { useDark } from "@vueuse/core"
+
+import { LIGHT_DARK_MODE_OPTIONS } from "@/constants.js"
+
+import NavigationBar from "@/components/NavigationBar.vue"
+
+useDark(LIGHT_DARK_MODE_OPTIONS)
 </script>
 
 

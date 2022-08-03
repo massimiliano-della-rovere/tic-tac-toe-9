@@ -63,23 +63,41 @@ const wonClass = computed(() => {
   transition: border 1s linear, background-color 1s ease-in-out;
 }
 
-.active-board-circle {
+.forbidden-board {
+  border: thick transparent solid;
+}
+
+.dark .active-board-circle {
+  border: thick rgba(255, 110, 110, 100%) solid;
+}
+
+.dark .active-board-cross {
+  border: thick rgba(110, 110, 255, 100%) solid;
+}
+
+
+.dark .won-by-circle {
+  background-color: rgba(255, 110, 110, 50%);
+}
+
+.dark .won-by-cross {
+  background-color: rgba(110, 110, 255, 50%);
+}
+
+.light .active-board-circle {
   border: thick rgba(255, 0, 0, 100%) solid;
 }
 
-.active-board-cross {
+.light .active-board-cross {
   border: thick rgba(0, 0, 255, 100%) solid;
 }
 
-.forbidden-board {
-  border: thick white solid;
-}
 
-.won-by-circle {
+.light .won-by-circle {
   background-color: rgba(255, 0, 0, 50%);
 }
 
-.won-by-cross {
+.light .won-by-cross {
   background-color: rgba(0, 0, 255, 50%);
 }
 </style>

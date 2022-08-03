@@ -102,15 +102,27 @@ async function markCellSymbol(event) {
   transition: color 1s linear;
 }
 
-.circle {
+.dark .circle {
+  color: rgba(255, 110, 110, 100%);
+}
+
+.dark .cross {
+  color: rgba(110, 110, 255, 100%);
+}
+
+.dark .empty {
+  color: darkgray;
+}
+
+.light .circle {
   color: rgba(255, 0, 0, 100%);
 }
 
-.cross {
+.light .cross {
   color: rgba(0, 0, 255, 100%);
 }
 
-.empty {
+.light .empty {
   color: lightgray;
 }
 </style>

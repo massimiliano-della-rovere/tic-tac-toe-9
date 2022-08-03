@@ -20,8 +20,15 @@ const POSITIONS_BY_ROW = [["nw", "n", "ne"], ["w", "o", "e"], ["sw", "s", "se"]]
 const POSITIONS_BY_COL = [["nw", "w", "sw"], ["n", "o", "s"], ["ne", "e", "se"]]
 const DIAGONALS = [["nw", "o", "se"], ["ne", "o", "sw"]]
 
+const LIGHT_DARK_MODE_OPTIONS = {
+  selector: "body",
+  valueDark: "dark",
+  valueLight: "light"
+}
+
 export {
   CIRCLE, CROSS, EMPTY, SYMBOLS,
   POSITIONS, POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS,
-  CONTINUE_GAME, RESTART_GAME
+  CONTINUE_GAME, RESTART_GAME,
+  LIGHT_DARK_MODE_OPTIONS
 }
