@@ -11,11 +11,12 @@
 
 
 <script setup>
-import { computed, defineProps } from "vue"
+import { computed } from "vue"
 
 import { useGameLogStore } from "@/stores/gameLog.js"
 
 
+// eslint-disable-next-line no-undef
 const props = defineProps({
   lines: {
     type: Number,
