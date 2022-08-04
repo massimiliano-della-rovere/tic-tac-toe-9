@@ -90,7 +90,8 @@ async function markCellSymbol(event) {
   font-family: monospace;
   font-size: 3em;
 
-  border: 1px black solid;
+  border-style: solid;
+  border-width: 1px;
   padding: .3ex;
   height: 1.5em;
   width: 1.5em;
@@ -100,6 +101,14 @@ async function markCellSymbol(event) {
   align-items: center;
 
   transition: color 1s linear;
+}
+
+.dark .cell-content {
+  border-color: gray;
+}
+
+.light .cell-content {
+  border: black;
 }
 
 .dark .circle {
