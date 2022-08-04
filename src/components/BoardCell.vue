@@ -108,7 +108,7 @@ async function markCellSymbol(event) {
 }
 
 .light .cell-content {
-  border: black;
+  border-color: gray;
 }
 
 .dark .circle {
