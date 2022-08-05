@@ -27,14 +27,23 @@ const LIGHT_DARK_MODE_OPTIONS = {
 }
 
 const LOCAL_PLAYERS = {
-  onePlayer: 1,
-  bothPlayers: 2
+  key: "number-of-local-players",
+  values: {
+    onePlayer: 1,
+    bothPlayers: 2
+  }
 }
+LOCAL_PLAYERS.defaultValue = LOCAL_PLAYERS.values.bothPlayers
+
 
 const REMOTE_OPPONENT_TYPE = {
-  aiOpponent: "aiOpponent",
-  remoteHumanOpponent: "remoteHumanOpponent"
+  key: "non-local-opponent",
+  values: {
+    aiOpponent: "aiOpponent",
+    remoteHumanOpponent: "remoteHumanOpponent"
+  }
 }
+REMOTE_OPPONENT_TYPE.defaultValue = REMOTE_OPPONENT_TYPE.values.aiOpponent
 
 export {
   CIRCLE, CROSS, EMPTY, SYMBOLS,
