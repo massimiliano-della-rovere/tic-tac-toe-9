@@ -6,8 +6,8 @@ import {
   EMPTY, SYMBOLS,
   POSITIONS,
   RESTART_GAME, LOCAL_PLAYERS
-} from "@/constants.js"
-import { swapActivePlayer } from "@/utilities.js"
+} from "@/lib/constants.js"
+import { swapActivePlayer } from "@/lib/utilities.js"
 
 import { useGameLogStore } from "@/stores/gameLog.js"
 import { useGameStateStore } from "@/stores/gameState.js"

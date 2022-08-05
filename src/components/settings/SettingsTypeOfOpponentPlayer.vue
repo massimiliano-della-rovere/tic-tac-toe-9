@@ -23,7 +23,7 @@
 <script setup>
 import { useStorage } from "@vueuse/core"
 
-import { LOCAL_PLAYERS, REMOTE_OPPONENT_TYPE } from "@/constants.js"
+import { LOCAL_PLAYERS, REMOTE_OPPONENT_TYPE } from "@/lib/constants.js"
 
 
 const numberOfLocalPlayers = useStorage(

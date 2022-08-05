@@ -12,8 +12,8 @@
 import { computed } from "vue"
 import { useToast } from "vue-toastification"
 
-import { EMPTY } from "@/constants.js"
-import { cellContentToClass } from "@/utilities.js"
+import { EMPTY } from "@/lib/constants.js"
+import { cellContentToClass } from "@/lib/utilities.js"
 
 import { useGameControlStore } from "@/stores/gameControl.js"
 import { useGameLogStore } from "@/stores/gameLog.js"

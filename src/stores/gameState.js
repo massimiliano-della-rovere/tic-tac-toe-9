@@ -4,11 +4,11 @@ import { useToast } from "vue-toastification"
 
 import {
   EMPTY, POSITIONS,
-  CONTINUE_GAME, RESTART_GAME } from "@/constants.js"
+  CONTINUE_GAME, RESTART_GAME } from "@/lib/constants.js"
+import { findWinner } from "@/lib/utilities.js"
 
 import { useGameControlStore } from "@/stores/gameControl.js"
 import { useGameLogStore } from "@/stores/gameLog.js"
-import { findWinner } from "@/utilities.js"
 
 
 function generateGameBoardCells() {

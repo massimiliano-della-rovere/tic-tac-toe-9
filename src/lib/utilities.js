@@ -3,9 +3,9 @@ import {
   POSITIONS_BY_COL,
   POSITIONS_BY_ROW,
   DIAGONALS, CIRCLE, CROSS
-} from "@/constants.js"
+} from "@/lib/constants.js"
 
-import { InvalidUserError } from "@/errors/InvalidUserError.js"
+import { InvalidUserError } from "@/lib/errors/InvalidUserError.js"
 
 
 const WINNER_DETECTION_PATHS = [POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS]
@@ -20,7 +20,7 @@ function cellContentToClass(cellContent) {
     case CROSS:
       return "cross"
     default:
-      throw new ReferenceError(cellContent)
+      throw new InvalidUserError(cellContent)
   }
 }
 
