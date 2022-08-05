@@ -1,6 +1,6 @@
 <template>
   <div :id="cellID"
-       :class="['cell-content', cellClass]"
+       :class="['cell-content', cellClass, cornerClass]"
        @click.prevent="markCellSymbol">
     {{ cellContent }}
   </div>
@@ -52,7 +52,13 @@ const cellContent = computed({
 })
 
 const cellClass = computed(() => { return cellContentToClass(cellContent.value) });
-
+const cornerClass = computed(() => {
+  if (["ne", "nw", "se", "sw"].includes(props.cellPosition)) {
+    return `corner-${props.cellPosition}`
+  } else {
+    return null
+  }
+})
 
 async function markCellSymbol(event) {
   const cellID = event.target.id
@@ -101,6 +107,22 @@ async function markCellSymbol(event) {
   align-items: center;
 
   transition: color 1s linear;
+}
+
+.corner-ne {
+  border-top-right-radius: 1ex;
+}
+
+.corner-nw {
+  border-top-left-radius: 1ex;
+}
+
+.corner-se {
+  border-bottom-right-radius: 1ex;
+}
+
+.corner-sw {
+  border-bottom-left-radius: 1ex;
 }
 
 .dark .cell-content {

@@ -61,6 +61,7 @@ const wonClass = computed(() => {
 <style scoped>
 .single-board {
   transition: border 1s linear, background-color 1s ease-in-out;
+  border-radius: 3ex;
 }
 
 .forbidden-board {
