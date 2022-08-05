@@ -6,10 +6,11 @@ import Toast from "vue-toastification"
 import "vue-toastification/dist/index.css"
 
 import App from "@/App.vue"
-import Home from "@/components/HomePage.vue"
-import Settings from "@/components/SettingsPage.vue"
-import Rules from "@/components/RulesManual.vue"
-import TT9Game from "@/components/TT9Game.vue"
+
+import Home from "@/views/HomePage.vue"
+import Settings from "@/views/SettingsPage.vue"
+import Rules from "@/views/RulesManual.vue"
+import TT9Game from "@/views/TT9Game.vue"
 
 
 const routes = [

@@ -11,7 +11,7 @@ import { useDark } from "@vueuse/core"
 
 import { LIGHT_DARK_MODE_OPTIONS } from "@/constants.js"
 
-import NavigationBar from "@/components/NavigationBar.vue"
+import NavigationBar from "@/components/game/NavigationBar.vue"
 
 useDark(LIGHT_DARK_MODE_OPTIONS)
 </script>

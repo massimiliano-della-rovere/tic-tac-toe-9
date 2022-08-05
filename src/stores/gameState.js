@@ -8,7 +8,7 @@ import {
 
 import { useGameControlStore } from "@/stores/gameControl.js"
 import { useGameLogStore } from "@/stores/gameLog.js"
-import { findWinner } from "@/utilities";
+import { findWinner } from "@/utilities.js"
 
 
 function generateGameBoardCells() {

@@ -22,7 +22,7 @@ import { CIRCLE, EMPTY, POSITIONS_BY_ROW } from "@/constants.js"
 import { useGameControlStore } from "@/stores/gameControl.js"
 import { useGameStateStore } from "@/stores/gameState.js"
 
-import BoardCell from "@/components/BoardCell.vue"
+import BoardCell from "@/components/game/BoardCell.vue"
 
 
 const gameControlStore = useGameControlStore()

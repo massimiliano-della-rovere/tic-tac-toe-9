@@ -86,8 +86,4 @@ import { CIRCLE, CROSS } from "@/constants.js"
 
 
 <style scoped>
-/*details {*/
-/*  border: 1px solid;*/
-/*  border-radius: 1ex;*/
-/*}*/
 </style>

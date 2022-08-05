@@ -18,9 +18,9 @@
 
 
 <script setup>
-import SettingsLightDarkMode from "@/components/SettingsLightDarkMode.vue"
-import SettingsNumberOfLocalPlayers from "@/components/SettingsNumberOfLocalPlayers.vue"
-import SettingsTypeOfOpponentPlayer from "@/components/SettingsTypeOfOpponentPlayer.vue"
+import SettingsLightDarkMode from "@/components/settings/SettingsLightDarkMode.vue"
+import SettingsNumberOfLocalPlayers from "@/components/settings/SettingsNumberOfLocalPlayers.vue"
+import SettingsTypeOfOpponentPlayer from "@/components/settings/SettingsTypeOfOpponentPlayer.vue"
 </script>
 
 
