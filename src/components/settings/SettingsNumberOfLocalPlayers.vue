@@ -2,19 +2,19 @@
   <div>
     <span>How many players are playing from this device?</span>
     &nbsp;
-    <label for="one-player">{{ LOCAL_PLAYERS.values.onePlayer }}</label>
+    <label for="one-player">{{ NUMBER_OF_LOCAL_PLAYERS.values.onePlayer }}</label>
     <input type="radio"
            id="one-player"
            name="local-players"
            v-model="numberOfLocalPlayers"
-           :value="LOCAL_PLAYERS.values.onePlayer">
+           :value="NUMBER_OF_LOCAL_PLAYERS.values.onePlayer">
     &nbsp;
-    <label for="both-player">{{ LOCAL_PLAYERS.values.bothPlayers }}</label>
+    <label for="both-player">{{ NUMBER_OF_LOCAL_PLAYERS.values.bothPlayers }}</label>
     <input type="radio"
            id="both-players"
            name="local-players"
            v-model="numberOfLocalPlayers"
-           :value="LOCAL_PLAYERS.values.bothPlayers">
+           :value="NUMBER_OF_LOCAL_PLAYERS.values.bothPlayers">
   </div>
 </template>
 
@@ -23,12 +23,12 @@
 <script setup>
 import { useStorage } from "@vueuse/core"
 
-import { LOCAL_PLAYERS } from "@/lib/constants.js"
+import { NUMBER_OF_LOCAL_PLAYERS } from "@/lib/constants.js"
 
 
 const numberOfLocalPlayers = useStorage(
-  LOCAL_PLAYERS.key,
-  LOCAL_PLAYERS.defaultValue)
+  NUMBER_OF_LOCAL_PLAYERS.key,
+  NUMBER_OF_LOCAL_PLAYERS.defaultValue)
 
 /*
  * debug/development
@@ -37,7 +37,7 @@ import { watch } from "vue"
 import { useToast } from "vue-toastification"
 const toast = useToast()
 watch(numberOfLocalPlayers, newValue => {
-  if (newValue === LOCAL_PLAYERS.values.onePlayer) {
+  if (newValue === NUMBER_OF_LOCAL_PLAYERS.values.onePlayer) {
     toast.error(`${newValue} mode not implemented yet!`)
   }
 })

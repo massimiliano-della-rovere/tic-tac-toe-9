@@ -12,7 +12,7 @@
 import { computed } from "vue"
 import { useToast } from "vue-toastification"
 
-import { EMPTY } from "@/lib/constants.js"
+import { CORNERS, EMPTY } from "@/lib/constants.js"
 import { cellContentToClass } from "@/lib/utilities.js"
 
 import { useGameControlStore } from "@/stores/gameControl.js"
@@ -53,7 +53,7 @@ const cellContent = computed({
 
 const cellClass = computed(() => { return cellContentToClass(cellContent.value) });
 const cornerClass = computed(() => {
-  if (["ne", "nw", "se", "sw"].includes(props.cellPosition)) {
+  if (CORNERS.includes(props.cellPosition)) {
     return `corner-${props.cellPosition}`
   } else {
     return null

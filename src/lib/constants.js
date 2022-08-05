@@ -19,6 +19,8 @@ const POSITIONS = {
 const POSITIONS_BY_ROW = [["nw", "n", "ne"], ["w", "o", "e"], ["sw", "s", "se"]]
 const POSITIONS_BY_COL = [["nw", "w", "sw"], ["n", "o", "s"], ["ne", "e", "se"]]
 const DIAGONALS = [["nw", "o", "se"], ["ne", "o", "sw"]]
+const CORNERS = ["ne", "nw", "se", "sw"]
+
 
 const LIGHT_DARK_MODE_OPTIONS = {
   selector: "body",
@@ -26,29 +28,29 @@ const LIGHT_DARK_MODE_OPTIONS = {
   valueLight: "light"
 }
 
-const LOCAL_PLAYERS = {
+const NUMBER_OF_LOCAL_PLAYERS = {
   key: "number-of-local-players",
   values: {
     onePlayer: 1,
     bothPlayers: 2
   }
 }
-LOCAL_PLAYERS.defaultValue = LOCAL_PLAYERS.values.bothPlayers
+NUMBER_OF_LOCAL_PLAYERS.defaultValue = NUMBER_OF_LOCAL_PLAYERS.values.bothPlayers
 
 
-const REMOTE_OPPONENT_TYPE = {
-  key: "non-local-opponent",
+const OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER = {
+  key: "opponent-type-for-one-local-player",
   values: {
     aiOpponent: "aiOpponent",
     remoteHumanOpponent: "remoteHumanOpponent"
   }
 }
-REMOTE_OPPONENT_TYPE.defaultValue = REMOTE_OPPONENT_TYPE.values.aiOpponent
+OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.defaultValue = OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent
 
 export {
   CIRCLE, CROSS, EMPTY, SYMBOLS,
-  POSITIONS, POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS,
+  POSITIONS, POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS, CORNERS,
   CONTINUE_GAME, RESTART_GAME,
   LIGHT_DARK_MODE_OPTIONS,
-  LOCAL_PLAYERS, REMOTE_OPPONENT_TYPE
+  NUMBER_OF_LOCAL_PLAYERS, OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER
 }

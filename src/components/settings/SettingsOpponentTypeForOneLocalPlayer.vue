@@ -1,20 +1,20 @@
 <template>
-  <div v-if="numberOfLocalPlayers === LOCAL_PLAYERS.values.onePlayer">
+  <div v-if="numberOfLocalPlayers === NUMBER_OF_LOCAL_PLAYERS.values.onePlayer">
     <span>Is the non-local player a remote human player or an AI?</span>
     &nbsp;
-    <label for="remote-human-opponent">{{ REMOTE_OPPONENT_TYPE.values.remoteHumanOpponent }}</label>
+    <label for="remote-human-opponent">{{ OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.remoteHumanOpponent }}</label>
     <input type="radio"
            id="remote-human-opponent"
            name="non-local-opponent"
            v-model="nonLocalOpponentType"
-           :value="REMOTE_OPPONENT_TYPE.values.remoteHumanOpponent">
+           :value="OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.remoteHumanOpponent">
     &nbsp;
-    <label for="ai-opponent">{{ REMOTE_OPPONENT_TYPE.values.aiOpponent }}</label>
+    <label for="ai-opponent">{{ OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent }}</label>
     <input type="radio"
            id="ai-opponent"
            name="non-local-opponent"
            v-model="nonLocalOpponentType"
-           :value="REMOTE_OPPONENT_TYPE.values.aiOpponent">
+           :value="OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent">
   </div>
 </template>
 
@@ -23,17 +23,17 @@
 <script setup>
 import { useStorage } from "@vueuse/core"
 
-import { LOCAL_PLAYERS, REMOTE_OPPONENT_TYPE } from "@/lib/constants.js"
+import { NUMBER_OF_LOCAL_PLAYERS, OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER } from "@/lib/constants.js"
 
 
 const numberOfLocalPlayers = useStorage(
-  LOCAL_PLAYERS.key,
-  LOCAL_PLAYERS.defaultValue)
+  NUMBER_OF_LOCAL_PLAYERS.key,
+  NUMBER_OF_LOCAL_PLAYERS.defaultValue)
 const nonLocalOpponentType = useStorage(
-  REMOTE_OPPONENT_TYPE.key,
-  numberOfLocalPlayers.value === LOCAL_PLAYERS.values.bothPlayers
+    OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.key,
+  numberOfLocalPlayers.value === NUMBER_OF_LOCAL_PLAYERS.values.bothPlayers
     ? undefined
-    : REMOTE_OPPONENT_TYPE.values.aiOpponent)
+    : OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent)
 
 
 /*

@@ -9,7 +9,7 @@
     <fieldset>
       <legend>Players and game mode</legend>
       <SettingsNumberOfLocalPlayers/>
-      <SettingsRemoteOpponentType/>
+      <SettingsOpponentTypeForOneLocalPlayer/>
     </fieldset>
 
   </section>
@@ -20,7 +20,7 @@
 <script setup>
 import SettingsLightDarkMode from "@/components/settings/SettingsLightDarkMode.vue"
 import SettingsNumberOfLocalPlayers from "@/components/settings/SettingsNumberOfLocalPlayers.vue"
-import SettingsRemoteOpponentType from "@/components/settings/SettingsRemoteOpponentType.vue"
+import SettingsOpponentTypeForOneLocalPlayer from "@/components/settings/SettingsOpponentTypeForOneLocalPlayer.vue"
 </script>
 
 

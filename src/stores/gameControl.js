@@ -1,11 +1,13 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
 import { useToast } from "vue-toastification"
+import { useStorage } from "@vueuse/core"
 
 import {
   EMPTY, SYMBOLS,
   POSITIONS,
-  RESTART_GAME, LOCAL_PLAYERS
+  RESTART_GAME,
+  NUMBER_OF_LOCAL_PLAYERS, OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER
 } from "@/lib/constants.js"
 import { swapActivePlayer } from "@/lib/utilities.js"
 
@@ -32,8 +34,13 @@ export const useGameControlStore = defineStore(
   () => {
     const activeBoards = ref(Object.keys(POSITIONS))
     const activePlayer = ref(EMPTY)
-    const nonLocalOpponentType = ref(undefined)
-    const nonLocalOpponentSymbol = ref(undefined)
+    const numberOfLocalPlayers = useStorage(
+        NUMBER_OF_LOCAL_PLAYERS.key,
+        NUMBER_OF_LOCAL_PLAYERS.defaultValue)
+    const opponentTypeForOneLocalPlayer = useStorage(
+        OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.key,
+        OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.defaultValue)
+    const opponentSymbolForOneLocalPlayer = ref(undefined)
 
     const toast = useToast()
     const gameLogStore = useGameLogStore()
@@ -52,19 +59,28 @@ export const useGameControlStore = defineStore(
       gameStateStore.initGame()
 
       activeBoards.value = Object.keys(POSITIONS)
+      // TODO: for remoteOpponent this must be coordinated with the other client
       activePlayer.value = calculateStartingPlayer(startingPlayer)
-      nonLocalOpponentSymbol.value = undefined
+      opponentSymbolForOneLocalPlayer.value = undefined
       gameLogStore.recordEvent("initActivePlayer", activePlayer.value)
 
       toast.info(`A new game is starting, first player is ${activePlayer.value}`)
 
-      if (nonLocalOpponentSymbol.value === LOCAL_PLAYERS.onePlayer) {
+      if (numberOfLocalPlayers.value === NUMBER_OF_LOCAL_PLAYERS.values.onePlayer) {
         // TODO: this should be a real handshake with the remote client
-        nonLocalOpponentSymbol.value = swapActivePlayer(activePlayer.value)
-        if (nonLocalOpponentSymbol.value !== undefined) {
-          gameLogStore.recordEvent("opponent", {type: nonLocalOpponentType, symbol: nonLocalOpponentSymbol})
-          toast.info(`Opponent ${nonLocalOpponentSymbol.value} type is ${nonLocalOpponentType.value}`)
+        opponentSymbolForOneLocalPlayer.value = swapActivePlayer(activePlayer.value)
+        if (opponentSymbolForOneLocalPlayer.value !== undefined) {
+          gameLogStore.recordEvent(
+              "opponent",
+              {
+                type: opponentTypeForOneLocalPlayer.value,
+                symbol: opponentSymbolForOneLocalPlayer.value
+              })
+          toast.info(`${activePlayer.value} is local`)
+          toast.info(`Opponent ${opponentSymbolForOneLocalPlayer.value} type is ${opponentTypeForOneLocalPlayer.value}`)
         }
+      } else {
+        toast.info(`Both ${SYMBOLS.join('and')} are local players`)
       }
     }
 
