@@ -5,6 +5,8 @@ import {
   DIAGONALS, CIRCLE, CROSS
 } from "@/constants.js"
 
+import { InvalidUserError } from "@/errors/InvalidUserError.js"
+
 
 const WINNER_DETECTION_PATHS = [POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS]
 
@@ -41,4 +43,16 @@ function findWinner(matrix, position = undefined) {
 }
 
 
-export { cellContentToClass, findWinner }
+function swapActivePlayer(currentActivePlayer) {
+  switch (currentActivePlayer) {
+    case CIRCLE:
+      return CROSS
+    case CROSS:
+      return CIRCLE
+    default:
+      throw new InvalidUserError(currentActivePlayer)
+  }
+}
+
+
+export { cellContentToClass, findWinner, swapActivePlayer }

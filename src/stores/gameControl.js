@@ -3,25 +3,14 @@ import { defineStore } from "pinia"
 import { useToast } from "vue-toastification"
 
 import {
-  CIRCLE, CROSS, EMPTY, SYMBOLS,
+  EMPTY, SYMBOLS,
   POSITIONS,
-  RESTART_GAME } from "@/constants.js"
-import { InvalidUserError } from "@/errors/InvalidUserError.js"
+  RESTART_GAME, LOCAL_PLAYERS
+} from "@/constants.js"
+import { swapActivePlayer } from "@/utilities.js"
 
 import { useGameLogStore } from "@/stores/gameLog.js"
 import { useGameStateStore } from "@/stores/gameState.js"
-
-
-function swapActivePlayer(currentActivePlayer) {
-  switch (currentActivePlayer) {
-    case CIRCLE:
-      return CROSS
-    case CROSS:
-      return CIRCLE
-    default:
-      throw new InvalidUserError(currentActivePlayer)
-    }
-}
 
 
 function generateRandomStartingPlayer() {
@@ -43,6 +32,8 @@ export const useGameControlStore = defineStore(
   () => {
     const activeBoards = ref(Object.keys(POSITIONS))
     const activePlayer = ref(EMPTY)
+    const nonLocalOpponentType = ref(undefined)
+    const nonLocalOpponentSymbol = ref(undefined)
 
     const toast = useToast()
     const gameLogStore = useGameLogStore()
@@ -62,9 +53,19 @@ export const useGameControlStore = defineStore(
 
       activeBoards.value = Object.keys(POSITIONS)
       activePlayer.value = calculateStartingPlayer(startingPlayer)
+      nonLocalOpponentSymbol.value = undefined
       gameLogStore.recordEvent("initActivePlayer", activePlayer.value)
 
       toast.info(`A new game is starting, first player is ${activePlayer.value}`)
+
+      if (nonLocalOpponentSymbol.value === LOCAL_PLAYERS.onePlayer) {
+        // TODO: this should be a real handshake with the remote client
+        nonLocalOpponentSymbol.value = swapActivePlayer(activePlayer.value)
+        if (nonLocalOpponentSymbol.value !== undefined) {
+          gameLogStore.recordEvent("opponent", {type: nonLocalOpponentType, symbol: nonLocalOpponentSymbol})
+          toast.info(`Opponent ${nonLocalOpponentSymbol.value} type is ${nonLocalOpponentType.value}`)
+        }
+      }
     }
 
     async function endTurn(lastPlayedBoardPosition, lastPlayedCellPosition) {

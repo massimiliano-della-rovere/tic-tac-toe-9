@@ -26,9 +26,20 @@ const LIGHT_DARK_MODE_OPTIONS = {
   valueLight: "light"
 }
 
+const LOCAL_PLAYERS = {
+  onePlayer: 1,
+  bothPlayers: 2
+}
+
+const REMOTE_OPPONENT_TYPE = {
+  aiOpponent: "aiOpponent",
+  remoteHumanOpponent: "remoteHumanOpponent"
+}
+
 export {
   CIRCLE, CROSS, EMPTY, SYMBOLS,
   POSITIONS, POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS,
   CONTINUE_GAME, RESTART_GAME,
-  LIGHT_DARK_MODE_OPTIONS
+  LIGHT_DARK_MODE_OPTIONS,
+  LOCAL_PLAYERS, REMOTE_OPPONENT_TYPE
 }
