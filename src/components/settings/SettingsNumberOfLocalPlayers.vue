@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span>How many players are playing from this device?</span>
+    <span>How many players are playing from this device? {{ numberOfLocalPlayers }}</span>
     &nbsp;
     <label for="one-player">{{ NUMBER_OF_LOCAL_PLAYERS.values.onePlayer }}</label>
     <input type="radio"
@@ -16,19 +16,25 @@
            v-model="numberOfLocalPlayers"
            :value="NUMBER_OF_LOCAL_PLAYERS.values.bothPlayers">
   </div>
+  <SettingsOpponentTypeForOneLocalPlayer/>
 </template>
 
 
 
 <script setup>
-import { useStorage } from "@vueuse/core"
+import { provide } from "vue"
+import { useLocalStorage } from "@vueuse/core"
 
-import { NUMBER_OF_LOCAL_PLAYERS } from "@/lib/constants.js"
+import { NUMBER_OF_LOCAL_PLAYERS } from "@/lib/constants/settings.js"
+
+import SettingsOpponentTypeForOneLocalPlayer from "@/components/settings/SettingsOpponentTypeForOneLocalPlayer.vue"
 
 
-const numberOfLocalPlayers = useStorage(
+const numberOfLocalPlayers = useLocalStorage(
   NUMBER_OF_LOCAL_PLAYERS.key,
   NUMBER_OF_LOCAL_PLAYERS.defaultValue)
+
+provide(NUMBER_OF_LOCAL_PLAYERS.key, numberOfLocalPlayers)
 
 /*
  * debug/development

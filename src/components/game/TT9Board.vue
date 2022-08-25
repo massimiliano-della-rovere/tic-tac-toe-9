@@ -15,7 +15,7 @@
 
 
 <script setup>
-import { POSITIONS_BY_ROW } from "@/lib/constants.js"
+import { POSITIONS_BY_ROW } from "@/lib/constants/position.js"
 
 import SingleBoard from "@/components/game/SingleBoard.vue"
 </script>

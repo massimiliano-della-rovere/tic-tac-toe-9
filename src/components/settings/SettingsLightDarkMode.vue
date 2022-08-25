@@ -9,7 +9,7 @@
 <script setup>
 import { useDark, useToggle } from "@vueuse/core"
 
-import { LIGHT_DARK_MODE_OPTIONS } from "@/lib/constants.js"
+import { LIGHT_DARK_MODE_OPTIONS } from "@/lib/constants/settings.js"
 
 
 const isDark = useDark(LIGHT_DARK_MODE_OPTIONS)

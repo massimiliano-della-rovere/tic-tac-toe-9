@@ -12,7 +12,8 @@
 import { computed } from "vue"
 import { useToast } from "vue-toastification"
 
-import { CORNERS, EMPTY } from "@/lib/constants.js"
+import { EMPTY } from "@/lib/constants/content.js"
+import { CORNERS } from "@/lib/constants/position.js"
 import { cellContentToClass } from "@/lib/utilities.js"
 
 import { useGameControlStore } from "@/stores/gameControl.js"

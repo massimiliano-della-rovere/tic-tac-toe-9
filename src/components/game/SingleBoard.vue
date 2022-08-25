@@ -17,7 +17,8 @@
 <script setup>
 import { computed } from "vue"
 
-import { CIRCLE, EMPTY, POSITIONS_BY_ROW } from "@/lib/constants.js"
+import { CIRCLE, EMPTY } from "@/lib/constants/content.js"
+import { POSITIONS_BY_ROW } from "@/lib/constants/position.js"
 
 import { useGameControlStore } from "@/stores/gameControl.js"
 import { useGameStateStore } from "@/stores/gameState.js"

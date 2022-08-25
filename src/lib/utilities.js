@@ -1,14 +1,6 @@
-import {
-  EMPTY,
-  POSITIONS_BY_COL,
-  POSITIONS_BY_ROW,
-  DIAGONALS, CIRCLE, CROSS
-} from "@/lib/constants.js"
+import { CIRCLE, CROSS, EMPTY } from "@/lib/constants/content.js"
 
 import { InvalidUserError } from "@/lib/errors/InvalidUserError.js"
-
-
-const WINNER_DETECTION_PATHS = [POSITIONS_BY_COL, POSITIONS_BY_ROW, DIAGONALS]
 
 
 function cellContentToClass(cellContent) {
@@ -25,34 +17,8 @@ function cellContentToClass(cellContent) {
 }
 
 
-function findWinner(matrix, position = undefined) {
-  for (let positions of WINNER_DETECTION_PATHS) {
-    for (let path of positions) {
-      if (position && !path.includes(position)) {
-        continue
-      }
-      const symbols = new Set(path.map(where => matrix[where]))
-      console.debug(JSON.stringify(path))
-      console.debug(symbols)
-      if (symbols.size === 1 && !symbols.has(EMPTY)) {
-        return symbols.keys().next().value
-      }
-    }
-  }
-  return EMPTY
-}
+const takeEmpty = (iterable, container) => iterable.filter(
+    item => container[item] === EMPTY)
 
 
-function swapActivePlayer(currentActivePlayer) {
-  switch (currentActivePlayer) {
-    case CIRCLE:
-      return CROSS
-    case CROSS:
-      return CIRCLE
-    default:
-      throw new InvalidUserError(currentActivePlayer)
-  }
-}
-
-
-export { cellContentToClass, findWinner, swapActivePlayer }
+export { cellContentToClass, takeEmpty }

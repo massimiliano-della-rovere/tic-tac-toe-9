@@ -1,18 +1,21 @@
-import { ref } from "vue"
+import { nextTick, ref } from "vue"
 import { defineStore } from "pinia"
 import { useToast } from "vue-toastification"
-import { useStorage } from "@vueuse/core"
+import { useLocalStorage } from "@vueuse/core"
 
+import { EMPTY, SYMBOLS } from "@/lib/constants/content.js"
+import { POSITIONS } from "@/lib/constants/position.js"
+import { RESTART_GAME } from "@/lib/constants/matchFlow.js"
 import {
-  EMPTY, SYMBOLS,
-  POSITIONS,
-  RESTART_GAME,
-  NUMBER_OF_LOCAL_PLAYERS, OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER
-} from "@/lib/constants.js"
-import { swapActivePlayer } from "@/lib/utilities.js"
+  AI_DEPTH, NUMBER_OF_LOCAL_PLAYERS, OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER
+} from "@/lib/constants/settings.js"
+import { takeEmpty } from "@/lib/utilities.js"
+import { otherPlayer } from "@/lib/gameLogic.js"
 
 import { useGameLogStore } from "@/stores/gameLog.js"
 import { useGameStateStore } from "@/stores/gameState.js"
+
+import { aiTurn } from "@/lib/aiLogic.js"
 
 
 function generateRandomStartingPlayer() {
@@ -21,11 +24,9 @@ function generateRandomStartingPlayer() {
 
 
 function calculateStartingPlayer(requestedStartingPlayer) {
-  if (SYMBOLS.includes(requestedStartingPlayer)) {
-    return requestedStartingPlayer
-  } else {
-    return generateRandomStartingPlayer()
-  }
+  return SYMBOLS.includes(requestedStartingPlayer)
+    ? requestedStartingPlayer
+    : generateRandomStartingPlayer()
 }
 
 
@@ -34,12 +35,14 @@ export const useGameControlStore = defineStore(
   () => {
     const activeBoards = ref(Object.keys(POSITIONS))
     const activePlayer = ref(EMPTY)
-    const numberOfLocalPlayers = useStorage(
+    const numberOfLocalPlayers = useLocalStorage(
         NUMBER_OF_LOCAL_PLAYERS.key,
         NUMBER_OF_LOCAL_PLAYERS.defaultValue)
-    const opponentTypeForOneLocalPlayer = useStorage(
+    const opponentTypeForOneLocalPlayer = useLocalStorage(
         OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.key,
         OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.defaultValue)
+    const aiDepth = useLocalStorage(AI_DEPTH.key, AI_DEPTH.defaultValue)
+    // const aiPlaying = ref(false)
     const opponentSymbolForOneLocalPlayer = ref(undefined)
 
     const toast = useToast()
@@ -47,12 +50,9 @@ export const useGameControlStore = defineStore(
     const gameStateStore = useGameStateStore()
 
     function _calculateActiveBoards(lastPlayedCellPosition) {
-      if (gameStateStore.wonBoards[lastPlayedCellPosition] === EMPTY) {
-        return [lastPlayedCellPosition]
-      } else {
-        return Object.keys(POSITIONS)
-                     .filter(position => gameStateStore.wonBoards[position] === EMPTY)
-      }
+      return gameStateStore.wonBoards[lastPlayedCellPosition] === EMPTY
+        ? [lastPlayedCellPosition]
+        : takeEmpty(Object.keys(POSITIONS), gameStateStore.wonBoards)
     }
 
     function initGame(startingPlayer = EMPTY) {
@@ -68,7 +68,7 @@ export const useGameControlStore = defineStore(
 
       if (numberOfLocalPlayers.value === NUMBER_OF_LOCAL_PLAYERS.values.onePlayer) {
         // TODO: this should be a real handshake with the remote client
-        opponentSymbolForOneLocalPlayer.value = swapActivePlayer(activePlayer.value)
+        opponentSymbolForOneLocalPlayer.value = otherPlayer(activePlayer.value)
         if (opponentSymbolForOneLocalPlayer.value !== undefined) {
           gameLogStore.recordEvent(
               "opponent",
@@ -78,6 +78,9 @@ export const useGameControlStore = defineStore(
               })
           toast.info(`${activePlayer.value} is local`)
           toast.info(`Opponent ${opponentSymbolForOneLocalPlayer.value} type is ${opponentTypeForOneLocalPlayer.value}`)
+          if (opponentTypeForOneLocalPlayer.value === OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent) {
+            toast.info(`AI Depth is ${aiDepth.value}`)
+          }
         }
       } else {
         toast.info(`Both ${SYMBOLS.join('and')} are local players`)
@@ -90,15 +93,37 @@ export const useGameControlStore = defineStore(
         return
       }
 
-      this.activePlayer = swapActivePlayer(activePlayer.value)
+      this.activePlayer = otherPlayer(activePlayer.value)
       gameLogStore.recordEvent("newActivePlayer", activePlayer.value)
 
       this.activeBoards = _calculateActiveBoards(lastPlayedCellPosition)
       gameLogStore.recordEvent("activeBoards", activeBoards.value)
+
+      console.info({
+        activePlayer: activePlayer.value,
+        numberOfLocalPlayers: numberOfLocalPlayers.value,
+        opponentTypeForOneLocalPlayer: opponentTypeForOneLocalPlayer.value,
+        opponentSymbolForOneLocalPlayer: opponentSymbolForOneLocalPlayer.value})
+      if (numberOfLocalPlayers.value === NUMBER_OF_LOCAL_PLAYERS.values.onePlayer) {
+        if (opponentTypeForOneLocalPlayer.value === OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent
+            && activePlayer.value === opponentSymbolForOneLocalPlayer.value) {
+          const parameters = {
+            activePlayer: this.activePlayer,
+            cells: JSON.parse(JSON.stringify(gameStateStore.cells)),  // deep clone
+            activeBoards: Array.from(this.activeBoards),
+            wonBoards: Object.create(gameStateStore.wonBoards),
+            aiDepth: this.aiDepth
+          }
+          console.info("aiTurn", parameters)
+          await nextTick()
+          await aiTurn(parameters, gameStateStore, this, gameLogStore)
+        }
+      }
     }
 
     return {
-      activeBoards, activePlayer,
-      initGame, endTurn
+      activeBoards, activePlayer, opponentSymbolForOneLocalPlayer,
+      initGame, endTurn,
+      aiDepth //, aiPlaying
     }
   })

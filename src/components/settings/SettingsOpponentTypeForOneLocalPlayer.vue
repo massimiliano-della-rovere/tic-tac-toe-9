@@ -16,25 +16,29 @@
            v-model="nonLocalOpponentType"
            :value="OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent">
   </div>
+  <SettingsAI/>
 </template>
 
 
 
 <script setup>
-import { useStorage } from "@vueuse/core"
+import { inject, provide } from "vue"
+import { useLocalStorage } from "@vueuse/core"
 
-import { NUMBER_OF_LOCAL_PLAYERS, OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER } from "@/lib/constants.js"
+import {
+  NUMBER_OF_LOCAL_PLAYERS,
+  OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER
+} from "@/lib/constants/settings.js"
 
+import SettingsAI from "@/components/settings/SettingsAI.vue"
 
-const numberOfLocalPlayers = useStorage(
-  NUMBER_OF_LOCAL_PLAYERS.key,
-  NUMBER_OF_LOCAL_PLAYERS.defaultValue)
-const nonLocalOpponentType = useStorage(
-    OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.key,
+const numberOfLocalPlayers = inject(NUMBER_OF_LOCAL_PLAYERS.key)
+const nonLocalOpponentType = useLocalStorage(
+  OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.key,
   numberOfLocalPlayers.value === NUMBER_OF_LOCAL_PLAYERS.values.bothPlayers
     ? undefined
     : OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.values.aiOpponent)
-
+provide(OPPONENT_TYPE_FOR_ONE_LOCAL_PLAYER.key, nonLocalOpponentType)
 
 /*
  * debug/development
@@ -42,11 +46,6 @@ const nonLocalOpponentType = useStorage(
 import { watch } from "vue"
 import { useToast } from "vue-toastification"
 const toast = useToast()
-// watch(numberOfLocalPlayers, newValue => {
-//   if (newValue === LOCAL_PLAYERS.onePlayer) {
-//     toast.error(`${newValue} mode not implemented yet!`)
-//   }
-// })
 watch(nonLocalOpponentType, newValue => {
   toast.error(`${newValue} opponent not implemented yet!`)
 })
@@ -55,4 +54,15 @@ watch(nonLocalOpponentType, newValue => {
 
 
 <style scoped>
+input[type="range"] {
+  margin-left: 1ex;
+  margin-right: 1ex;
+  width: 40em;
+}
+
+input[type="range"] + span.value {
+  font-family: monospace;
+  font-size: larger;
+  width: 2em;
+}
 </style>

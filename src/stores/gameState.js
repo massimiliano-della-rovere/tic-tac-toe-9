@@ -2,10 +2,10 @@ import { ref } from "vue"
 import { defineStore } from "pinia"
 import { useToast } from "vue-toastification"
 
-import {
-  EMPTY, POSITIONS,
-  CONTINUE_GAME, RESTART_GAME } from "@/lib/constants.js"
-import { findWinner } from "@/lib/utilities.js"
+import { EMPTY } from "@/lib/constants/content.js"
+import { POSITIONS } from "@/lib/constants/position.js"
+import { CONTINUE_GAME, RESTART_GAME } from "@/lib/constants/matchFlow.js"
+import { findWinner } from "@/lib/gameLogic.js"
 
 import { useGameControlStore } from "@/stores/gameControl.js"
 import { useGameLogStore } from "@/stores/gameLog.js"

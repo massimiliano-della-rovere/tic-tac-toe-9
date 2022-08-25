@@ -80,7 +80,7 @@
 
 
 <script setup>
-import { CIRCLE, CROSS } from "@/lib/constants.js"
+import { CIRCLE, CROSS } from "@/lib/constants/content.js"
 </script>
 
 
